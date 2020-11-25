@@ -1,0 +1,32 @@
+on: [push]
+
+name: AzureLogin
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    - name: Checkout repo
+      uses: actions/checkout@v1
+    
+    - name: Allocate the resources
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+          chmod +x $GITHUB_WORKSPACE/deploy_webapp.sh
+          $GITHUB_WORKSPACE/deploy_webapp.sh
+      env:
+	USER_NAME : ${{secrets.USER_NAME}}
+	SQL_PASSWORD : ${{secrets.SQL_PASSWORD}}
+        
+    - name: Deploy the web app
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'flaskPythonStephanSmit'
