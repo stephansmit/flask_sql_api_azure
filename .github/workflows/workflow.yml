@@ -21,7 +21,7 @@ jobs:
         azcliversion: 2.0.72
         inlineScript: |
           chmod +x $GITHUB_WORKSPACE/deploy_webapp.sh
-          $GITHUB_WORKSPACE/deploy_webapp.sh
+          $GITHUB_WORKSPACE/deploy_api.sh
       env:
         USER_NAME : ${{secrets.USER_NAME}}
         SQL_PASSWORD : ${{secrets.SQL_PASSWORD}}
